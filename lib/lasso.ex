@@ -34,17 +34,22 @@ defmodule Lasso do
         :ok
 
       {:error, failures} ->
-        raise error_module, "Unmet expectations: #{inspect(failures)}"
+        raise error_module, render_failure_messages(failures)
     end
   end
 
-  def expect(lasso, "GET", path, responder) do
-    expectation = %__MODULE__.Expectation{
-      method: "GET",
-      path: path,
-      responder: responder
-    }
-
+  def expect(lasso, method, path, responder) do
+    expectation = %__MODULE__.Expectation{method: method, path: path, responder: responder}
     GenServer.call(lasso.pid, {:expect, expectation})
+  end
+
+  defp render_failure_messages(failures) do
+    failures
+    |> Enum.map(&render_failure_message/1)
+    |> Enum.join("\n")
+  end
+
+  defp render_failure_message(expectation) do
+    "Expected #{expectation.method} #{expectation.path} to be called#{unless is_nil(expectation.times), do: " #{expectation.times} times"}"
   end
 end

@@ -23,7 +23,8 @@ defmodule Lasso.MixProject do
   defp deps do
     [
       {:bandit, "~> 1.0-pre"},
-      {:thousand_island, "~> 1.0-pre"}
+      {:thousand_island, "~> 1.0-pre"},
+      {:req, "~> 0.3.0", only: :test}
     ]
   end
 end
