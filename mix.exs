@@ -1,13 +1,19 @@
 defmodule Lasso.MixProject do
   use Mix.Project
 
+  @github "https://github.com/claytongentry/lasso"
+
   def project do
     [
       app: :lasso,
-      version: "0.1.0",
+      version: "0.1.0-pre",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package(),
+      name: "Lasso",
+      source_url: @github
     ]
   end
 
@@ -24,7 +30,20 @@ defmodule Lasso.MixProject do
     [
       {:bandit, "~> 1.0-pre"},
       {:thousand_island, "~> 1.0-pre"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:req, "~> 0.3.0", only: :test}
+    ]
+  end
+
+  defp description() do
+    "Simulate remote HTTP services with local Bandit servers."
+  end
+
+  defp package() do
+    [
+      files: ~w(lib .formatter.exs mix.exs README.md LICENSE.md CHANGELOG.md),
+      licenses: ["MIT"],
+      links: %{"GitHub" => @github}
     ]
   end
 end
