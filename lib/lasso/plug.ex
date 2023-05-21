@@ -11,12 +11,21 @@ defmodule Lasso.Plug do
 
   @doc false
   def call(conn, instance) do
-    match = GenServer.call(instance, {:request, Lasso.Request.from_conn(conn)})
+    request = Lasso.Request.from_conn(conn)
 
-    if is_nil(match) do
-      raise(Lasso.UnmatchedRequestException)
-    else
-      match.responder.(conn)
+    case GenServer.call(instance, {:request, request}) do
+      {:ok, expectation} ->
+        try do
+          expectation.responder.(conn)
+        catch
+          class, reason ->
+            stacktrace = __STACKTRACE__
+            :erlang.raise(class, reason, stacktrace)
+        end
+
+      {:error, :unexpected_request} ->
+        GenServer.cast(instance, {:failure, request, :unexpected_request})
+        raise Lasso.UnmatchedRequestException
     end
   end
 end

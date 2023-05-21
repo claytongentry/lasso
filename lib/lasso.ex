@@ -39,7 +39,14 @@ defmodule Lasso do
   end
 
   def expect(lasso, method, path, responder) do
-    expectation = %__MODULE__.Expectation{method: method, path: path, responder: responder}
+    expectation = %__MODULE__.Expectation{
+      method: method,
+      path: path,
+      responder: responder,
+      request_count: 0,
+      expected_request_count: :one_or_more
+    }
+
     GenServer.call(lasso.pid, {:expect, expectation})
   end
 
@@ -49,7 +56,16 @@ defmodule Lasso do
     |> Enum.join("\n")
   end
 
-  defp render_failure_message(expectation) do
-    "Expected #{expectation.method} #{expectation.path} to be called#{unless is_nil(expectation.times), do: " #{expectation.times} times"}"
+  defp render_failure_message(%Lasso.Request{method: method, path: path}) do
+    "Unexpected #{method} request to #{path}"
+  end
+
+  defp render_failure_message(%Lasso.Expectation{
+         method: method,
+         path: path,
+         expected_request_count: n,
+         request_count: m
+       }) do
+    "Expected #{n} call(s) to #{method} #{path}, received #{m}."
   end
 end
