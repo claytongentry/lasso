@@ -10,7 +10,7 @@ defmodule Lasso.Server do
   @impl true
   def init(:ok) do
     with {:ok, pid} <- Bandit.start_link(port: 0, plug: {Lasso.Plug, self()}, startup_log: false),
-         {:ok, %{port: port}} <- ThousandIsland.listener_info(pid) do
+         {:ok, {_host, port}} <- ThousandIsland.listener_info(pid) do
       {:ok, %{pid: pid, port: port, expectations: %{}, requests: %{}, unexpected_requests: []}}
     else
       {:error, reason} -> {:stop, reason}
