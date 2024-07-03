@@ -6,7 +6,7 @@ defmodule Lasso.MixProject do
   def project do
     [
       app: :lasso,
-      version: "0.1.0-pre",
+      version: "0.1.2",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -28,8 +28,7 @@ defmodule Lasso.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:bandit, "~> 1.0-pre"},
-      {:thousand_island, "~> 1.0-pre"},
+      {:bandit, "~> 1.0"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:req, "~> 0.3.0", only: :test}
     ]

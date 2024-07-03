@@ -9,7 +9,7 @@ Inspired by [Bypass](https://github.com/PSPDFKit-labs/bypass) and built on top o
 ```elixir
 def deps do
   [
-    {:lasso, "~> 0.1.0-pre"}
+    {:lasso, "~> 0.1.2"}
   ]
 end
 ```
