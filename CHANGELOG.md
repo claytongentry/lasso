@@ -1,5 +1,9 @@
 # Changelog for Lasso
 
+## v.0.1.3
+
+- Terminate the Bandit server on_exit
+
 ## v.0.1.2
 
 - Upgrade Bandit
