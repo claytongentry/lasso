@@ -15,6 +15,7 @@ defmodule Lasso do
 
         ExUnit.Callbacks.on_exit({__MODULE__, pid}, fn ->
           verify_expectations!(lasso, ExUnit.AssertionError)
+          Process.exit(pid, :shutdown)
         end)
 
         lasso
