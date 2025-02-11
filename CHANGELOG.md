@@ -1,5 +1,9 @@
 # Changelog for Lasso
 
+## V.0.1.4
+
+- Support Lasso.expect_once/4 (@grzuy)
+
 ## v.0.1.3
 
 - Terminate the Bandit server on_exit
