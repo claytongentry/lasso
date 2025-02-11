@@ -39,6 +39,18 @@ defmodule Lasso do
     end
   end
 
+  def expect_once(lasso, method, path, responder) do
+    expectation = %__MODULE__.Expectation{
+      method: method,
+      path: path,
+      responder: responder,
+      request_count: 0,
+      expected_request_count: 1
+    }
+
+    GenServer.call(lasso.pid, {:expect, expectation})
+  end
+
   def expect(lasso, method, path, responder) do
     expectation = %__MODULE__.Expectation{
       method: method,
